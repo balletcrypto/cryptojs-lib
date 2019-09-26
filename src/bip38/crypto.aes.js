@@ -4,6 +4,8 @@
 * Copyright (c) 2009-2013, Jeff Mott. All rights reserved.
 * http://code.google.com/p/crypto-js/wiki/License
 */
+import { base64ToBytes, UTF8, randomBytes, bytesToBase64 } from './crypto'
+import { PBKDF2 } from './crypto.pbkdf2'
 // Precomputed SBOX
 var SBOX = [0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
   0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -104,13 +106,13 @@ export var AES = {
       ),
 
       // Generate random IV
-      iv = options.iv || util.randomBytes(AES._blocksize * 4),
+      iv = options.iv || randomBytes(AES._blocksize * 4),
 
       // Generate key
       k = (
         password.constructor == String ?
           // Derive key from pass-phrase
-          C.PBKDF2(password, iv, 32, {asBytes: true}) :
+          PBKDF2(password, iv, 32, {asBytes: true}) :
           // else, assume byte array representing cryptographic key
           password
       );
@@ -121,7 +123,7 @@ export var AES = {
 
     // Return ciphertext
     m = options.iv ? m : iv.concat(m);
-    return (options && options.asBytes) ? m : util.bytesToBase64(m);
+    return (options && options.asBytes) ? m : bytesToBase64(m);
 
   },
 
@@ -140,7 +142,7 @@ export var AES = {
       // Convert to bytes if ciphertext is a string
       c = (
         ciphertext.constructor == String ?
-          util.base64ToBytes(ciphertext) :
+          base64ToBytes(ciphertext) :
           ciphertext
       ),
 
@@ -151,7 +153,7 @@ export var AES = {
       k = (
         password.constructor == String ?
           // Derive key from pass-phrase
-          C.PBKDF2(password, iv, 32, {asBytes: true}) :
+          PBKDF2(password, iv, 32, {asBytes: true}) :
           // else, assume byte array representing cryptographic key
           password
       );

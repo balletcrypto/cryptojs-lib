@@ -129,3 +129,17 @@ export const Binary = {
 export function sha256ripe160(data) {
   return RIPEMD160(sha256(data, { asBytes: true }), { asBytes: true });
 }
+
+export const bytesToString = function (bytes) {
+  return decodeURIComponent(escape(bytesToString(bytes)));
+}
+
+const binaryStringToBytes = function (str) {
+  for (var bytes = [], i = 0; i < str.length; i++)
+    bytes.push(str.charCodeAt(i) & 0xFF);
+  return bytes;
+}
+
+export const stringToBytes = function (str) {
+  return binaryStringToBytes(unescape(encodeURIComponent(str)));
+}

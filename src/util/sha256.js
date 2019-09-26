@@ -1,3 +1,11 @@
+import {
+  wordsToBytes,
+  bytesToString,
+  bytesToHex,
+  stringToBytes,
+  bytesToWords
+} from '../bip38/crypto'
+
 export const doubleSha256 = (address) => {
   return sha256(sha256(address, {asBytes: true}), {asBytes: true})
 }
@@ -20,46 +28,11 @@ const K = [0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
   0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2]
 
 
-const wordsToBytes = function (words) {
-  for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-    bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
-  return bytes;
-}
-
-const bytesToString = function (bytes) {
-  return decodeURIComponent(escape(bytesToString(bytes)));
-}
-
 export const sha256 = function (message, options) {
   let digestbytes = wordsToBytes(coreSha256(message));
   return options && options.asBytes ? digestbytes :
     options && options.asString ? bytesToString(digestbytes) :
       bytesToHex(digestbytes);
-}
-
-
-const bytesToHex = function (bytes) {
-  for (var hex = [], i = 0; i < bytes.length; i++) {
-    hex.push((bytes[i] >>> 4).toString(16));
-    hex.push((bytes[i] & 0xF).toString(16));
-  }
-  return hex.join("");
-}
-
-const binaryStringToBytes = function (str) {
-  for (var bytes = [], i = 0; i < str.length; i++)
-    bytes.push(str.charCodeAt(i) & 0xFF);
-  return bytes;
-}
-
-const stringToBytes = function (str) {
-  return binaryStringToBytes(unescape(encodeURIComponent(str)));
-}
-
-const bytesToWords = function (bytes) {
-  for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-    words[b >>> 5] |= (bytes[i] & 0xFF) << (24 - b % 32);
-  return words;
 }
 
 const coreSha256 = function (message) {
