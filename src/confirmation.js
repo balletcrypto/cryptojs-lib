@@ -58,6 +58,7 @@ export function validateConfirmation(confirmation, passphrase) {
   const generatedPoint = ecCurve.decodePointHex(bytesToHex(decrypted).toString().toUpperCase());
   const generatedBytes = generatedPoint.multiply(BigInteger.fromByteArrayUnsigned(passfactor)).getEncoded(compressed);
   const generatedAddress = address(sha256ripe160(generatedBytes));
+  const publicKeyHex = Buffer.from(generatedBytes).toString("hex")
   console.log(`generatedBytes: ${generatedBytes}, generatedAddress: ${generatedAddress}`)
 
   const generatedAddressHash = doubleSha256(generatedAddress).slice(0, 4);
@@ -70,6 +71,7 @@ export function validateConfirmation(confirmation, passphrase) {
   }
   return {
     valid,
-    generatedAddress
+    generatedAddress,
+    publicKeyHex,
   }
 }
