@@ -22,7 +22,7 @@ export function validateConfirmation(confirmation, passphrase) {
   const encryptedpointb = bytes.slice(18, 51);
 
   const compressed = (flagByte & 0x20) == 0x20;
-  const lotSequencePresent = (flagByte & 0x0e4) == 0x04;
+  const lotSequencePresent = (flagByte & 0x04) == 0x04;
   const ownerSalt = ownerEntropy.slice(0, lotSequencePresent ? 4 : 8)
   console.log(`ownerSalt: ${ownerSalt}, passphrase: ${passphrase}`)
 
