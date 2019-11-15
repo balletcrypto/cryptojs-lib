@@ -37,17 +37,10 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   const txb = new TransactionBuilder(NETWORKS.bitcoin)
   const isSegwit = (str) => str.startsWith('bc1')
   const fee = calculateUTXOSize(true, utxos) * feePerByte
+  const keyPair = new ECPairFromWIF(privateKey, NETWORKS.bitcoin)
   const getUtxoTotalAmount = utxos.length === 1 ?
     utxos[0].amount :
     utxos.reduce((pre, next) => pre.amount + next.amount)
-  const getUtxosKeyPair = utxos.map(utxo => {
-    var ECPairFromWIF = ECPair.fromWIF
-    return {
-      ...utxo,
-      keyPair: new ECPairFromWIF(privateKey, NETWORKS.bitcoin),
-      privateKey: privateKey
-    }
-  })  
   const outputs = [{
     address: payeeAddress,
     value: new bigNumber(`${sendAmount}`).times(10 ** 8).toNumber()
@@ -61,16 +54,16 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
         .minus(new bigNumber(`${fee}`).valueOf()).toNumber()
     })
   }
-  getUtxosKeyPair.forEach((utxo, index) => {
+  utxos.forEach((utxo, index) => {
     if (isSegwit(utxo.address)) {
-      console.log(utxo.keyPair.publicKey)
-      const hash = crypto.hash160(utxo.keyPair.publicKey)
+      console.log(keyPair.publicKey)
+      const hash = crypto.hash160(keyPair.publicKey)
       const prefix = new Uint8Array(2)
       prefix[0] = 0
       prefix[1] = hash.length
       const scriptPubKey = concatTypedArrays(prefix, hash)
       console.log(scriptPubKey)
-      txb.addInput(utxo.txid, utxo.txindex, 0xffffffff, Buffer.from(scriptPubKey, 'Hex'))
+      txb.addInput(utxo.txid, utxo.txindex, undefined, Buffer.from(scriptPubKey, 'Hex'))
     } else {
       txb.addInput(utxo.txid, utxo.txindex)
     }
@@ -79,7 +72,7 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   outputs.forEach(output => {
     txb.addOutput(output.address, output.value)
   });
-  getUtxosKeyPair.forEach((utxo, index) => {
+  utxos.forEach((utxo, index) => {
     let mixIn = {}
     if (isSegwit(utxo.address)) {
       mixIn.prevOutScriptType = 'p2wpkh'
@@ -88,9 +81,9 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
       mixIn.prevOutScriptType = 'p2pkh'
     }
     txb.sign({
+      ...mixIn,
       vin: index,
-      keyPair: utxo.keyPair,
-      ...mixIn
+      keyPair: keyPair,
     })
   })
   const tx = txb.build()
