@@ -14,43 +14,49 @@ function concatTypedArrays(a, b) { // a, b TypedArray of same type
   return c;
 }
 const calculateUTXOSize = (isSegwit, utxos) => {
- // TODO Better for calculatefee
- let vsize = 0;
- vsize += 10;
- // transaction input size
- if (isSegwit) {
-  vsize += utxos.length * 68
- } else {
-  vsize += utxos.length * 148
- }
- // transaction output size
- if (isSegwit) {
-    vsize += 31;
- } else {
-  vsize += 34;
- }
+  // TODO Better for calculatefee
+  let vsize = 0;
+  vsize += 20;
+  // transaction input size
+  if (isSegwit) {
+    vsize += utxos.length * 68
+  } else {
+    vsize += utxos.length * 148
+  }
+  // transaction output size
+  if (isSegwit) {
+      vsize += 31;
+  } else {
+    vsize += 34;
+  }
   return vsize
 }
 const ECPairFromWIF = ECPair.fromWIF
 export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAddress) => {
+  const sendAmountSatoshi = new bigNumber(`${sendAmount}`).times(10 ** 8).toNumber()
   const vsize = 0
   const txb = new TransactionBuilder(NETWORKS.bitcoin)
   const isSegwit = (str) => str.startsWith('bc1')
-  const fee = calculateUTXOSize(true, utxos) * feePerByte
+  const fee = calculateUTXOSize(isSegwit(payerAddress), utxos) * feePerByte
   const keyPair = new ECPairFromWIF(privateKey, NETWORKS.bitcoin)
   const getUtxoTotalAmount = utxos.length === 1 ?
     utxos[0].amount :
     utxos.reduce((pre, next) => pre.amount + next.amount)
+    // min_send_amount 1000
+  if (getUtxoTotalAmount - sendAmountSatoshi - fee < 1000) {
+    alert('send error')
+    return 
+  }
   const outputs = [{
     address: payeeAddress,
-    value: new bigNumber(`${sendAmount}`).times(10 ** 8).toNumber()
+    value: sendAmountSatoshi
   }]
-  if (getUtxoTotalAmount > sendAmount + fee) {
+  if (getUtxoTotalAmount > sendAmountSatoshi + fee) {
     // change amount
     outputs.push({
       address: payerAddress,
       value: new bigNumber(`${getUtxoTotalAmount}`)
-        .minus(new bigNumber(`${sendAmount}`).times(10 ** 8).valueOf())
+        .minus(sendAmountSatoshi)
         .minus(new bigNumber(`${fee}`).valueOf()).toNumber()
     })
   }
@@ -83,7 +89,7 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
     txb.sign({
       ...mixIn,
       vin: index,
-      keyPair: keyPair,
+      keyPair: keyPair
     })
   })
   const tx = txb.build()
