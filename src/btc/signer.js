@@ -88,5 +88,5 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   })
   const tx = txb.build()
   console.log(tx.toHex())
-  return txb
+  return tx.toHex()
 }
