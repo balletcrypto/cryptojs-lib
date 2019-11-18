@@ -31,11 +31,13 @@ const calculateUTXOSize = (isSegwit, utxos) => {
  }
   return vsize
 }
+
+const isSegwit = (str) => str.startsWith('bc1')
+
 const ECPairFromWIF = ECPair.fromWIF
-export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAddress) => {
+const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAddress) => {
   const vsize = 0
   const txb = new TransactionBuilder(NETWORKS.bitcoin)
-  const isSegwit = (str) => str.startsWith('bc1')
   const fee = calculateUTXOSize(true, utxos) * feePerByte
   const getUtxoTotalAmount = utxos.length === 1 ?
     utxos[0].amount :
@@ -97,3 +99,5 @@ export default (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   console.log(tx.toHex())
   return tx.toHex()
 }
+
+export { calculateUTXOSize, signer, isSegwit }
