@@ -36,13 +36,13 @@ const isSegwit = (str) => str.startsWith('bc1')
 
 const ECPairFromWIF = ECPair.fromWIF
 const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAddress) => {
-  const vsize = 0
+  const sendAmountSatoshi = new bigNumber(`${sendAmount}`).times(10 ** 8).toNumber()
   const txb = new TransactionBuilder(NETWORKS.bitcoin)
-  const fee = calculateUTXOSize(true, utxos) * feePerByte
+  const fee = calculateUTXOSize(isSegwit(payerAddress), utxos) * feePerByte
   const keyPair = new ECPairFromWIF(privateKey, NETWORKS.bitcoin)
   const getUtxoTotalAmount = utxos.length === 1 ?
     utxos[0].amount :
-    utxos.reduce((pre, next) => pre.amount + next.amount)
+    utxos.reduce((r, a) => (r + a.amount), 0)
     // min_send_amount 1000
   if (getUtxoTotalAmount - sendAmountSatoshi - fee < 1000) {
     alert('send error')
@@ -53,6 +53,7 @@ const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
     value: sendAmountSatoshi
   }]
   if (getUtxoTotalAmount > sendAmountSatoshi + fee) {
+    console.log("change amount")
     // change amount
     outputs.push({
       address: payerAddress,
@@ -63,13 +64,11 @@ const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   }
   utxos.forEach((utxo, index) => {
     if (isSegwit(utxo.address)) {
-      console.log(keyPair.publicKey)
       const hash = crypto.hash160(keyPair.publicKey)
       const prefix = new Uint8Array(2)
       prefix[0] = 0
       prefix[1] = hash.length
       const scriptPubKey = concatTypedArrays(prefix, hash)
-      console.log(scriptPubKey)
       txb.addInput(utxo.txid, utxo.txindex, undefined, Buffer.from(scriptPubKey, 'Hex'))
     } else {
       txb.addInput(utxo.txid, utxo.txindex)
