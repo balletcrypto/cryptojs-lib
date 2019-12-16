@@ -12,21 +12,21 @@ export function rotr(n, b) {
   return (n << (32 - b)) | (n >>> b);
 }
 
-// Swap big-endian to little-endian and vice versa
-export function endian(n) {
+// // Swap big-endian to little-endian and vice versa
+// export function endian(n) {
 
-  // If number given, swap endian
-  if (n.constructor == Number) {
-    return util.rotl(n, 8) & 0x00FF00FF |
-      util.rotl(n, 24) & 0xFF00FF00;
-  }
+//   // If number given, swap endian
+//   if (n.constructor == Number) {
+//     return util.rotl(n, 8) & 0x00FF00FF |
+//       util.rotl(n, 24) & 0xFF00FF00;
+//   }
 
-  // Else, assume array and swap all items
-  for (var i = 0; i < n.length; i++)
-    n[i] = util.endian(n[i]);
-  return n;
+//   // Else, assume array and swap all items
+//   for (var i = 0; i < n.length; i++)
+//     n[i] = util.endian(n[i]);
+//   return n;
 
-}
+// }
 
 // Generate an array of any length of random bytes
 export function randomBytes(n) {

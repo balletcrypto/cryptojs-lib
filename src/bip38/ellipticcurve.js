@@ -89,28 +89,28 @@ ec.FieldElementFp.prototype.sqrt = function () {
   var fourQ = Q.shiftLeft(2).mod(this.q);
   var U, V;
 
-  do {
-    var rand = new SecureRandom();
-    var P;
-    do {
-      P = new BigInteger(this.q.bitLength(), rand);
-    }
-    while (P.compareTo(this.q) >= 0 || !(P.multiply(P).subtract(fourQ).modPow(legendreExponent, this.q).equals(qMinusOne)));
+  // do {
+  //   var rand = new SecureRandom();
+  //   var P;
+  //   do {
+  //     P = new BigInteger(this.q.bitLength(), rand);
+  //   }
+  //   while (P.compareTo(this.q) >= 0 || !(P.multiply(P).subtract(fourQ).modPow(legendreExponent, this.q).equals(qMinusOne)));
 
-    var result = ec.FieldElementFp.fastLucasSequence(this.q, P, Q, k);
+  //   var result = ec.FieldElementFp.fastLucasSequence(this.q, P, Q, k);
 
-    U = result[0];
-    V = result[1];
-    if (V.multiply(V).mod(this.q).equals(fourQ)) {
-      // Integer division by 2, mod q
-      if (V.testBit(0)) {
-        V = V.add(this.q);
-      }
-      V = V.shiftRight(1);
-      return new ec.FieldElementFp(this.q, V);
-    }
-  }
-  while (U.equals(BigInteger.ONE) || U.equals(qMinusOne));
+  //   U = result[0];
+  //   V = result[1];
+  //   if (V.multiply(V).mod(this.q).equals(fourQ)) {
+  //     // Integer division by 2, mod q
+  //     if (V.testBit(0)) {
+  //       V = V.add(this.q);
+  //     }
+  //     V = V.shiftRight(1);
+  //     return new ec.FieldElementFp(this.q, V);
+  //   }
+  // }
+  // while (U.equals(BigInteger.ONE) || U.equals(qMinusOne));
 
   return null;
 };

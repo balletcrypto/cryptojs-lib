@@ -36,7 +36,7 @@ export function PBKDF2(password, salt, keylen, options) {
   /* else, assume byte arrays already */
 
   // Defaults
-  var hasher = options && options.hasher || C.SHA1,
+  var hasher = options && options.hasher,
     iterations = options && options.iterations || 1;
 
   // Pseudo-random function

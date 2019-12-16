@@ -91,7 +91,7 @@ export var AES = {
     options = options || {};
 
     // Determine mode
-    var mode = options.mode || new C.mode.OFB;
+    var mode = options.mode;
 
     // Allow mode to override options
     if (mode.fixOptions) mode.fixOptions(options);
@@ -132,7 +132,7 @@ export var AES = {
     options = options || {};
 
     // Determine mode
-    var mode = options.mode || new C.mode.OFB;
+    var mode = options.mode;
 
     // Allow mode to override options
     if (mode.fixOptions) mode.fixOptions(options);
