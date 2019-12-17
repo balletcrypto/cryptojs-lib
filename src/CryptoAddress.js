@@ -2,7 +2,7 @@ import { BITBOX } from 'bitbox-sdk'
 import bnbSdk from '@binance-chain/javascript-sdk'
 import { payments } from 'bitcoinjs-lib'
 import { deriveAddress } from 'ripple-keypairs'
-import EthCrypto from 'eth-crypto'
+import ethPublickey2Address from 'ethereum-public-key-to-address'
 import coinInfo from 'coininfo'
 
 let bitbox = new BITBOX();
@@ -50,9 +50,7 @@ export const getXRPAddress = publicKeyHex => {
 }
 
 export const getEthAddress = publicKeyHex => {
-  return EthCrypto.publicKey.toAddress(
-    publicKeyHex
-  )
+  return ethPublickey2Address(publicKeyHex)
 }
 
 export const getQtumAddress = publicKeyHex => {
