@@ -13,32 +13,48 @@ function concatTypedArrays(a, b) { // a, b TypedArray of same type
   c.set(b, a.length);
   return c;
 }
-const calculateUTXOSize = (isSegwit, utxos) => {
+const isP2WPKH = (address) => address.startsWith('bc1') && address.length === 42
+const calculateUTXOSize = (source, destinations, utxos) => {
   // TODO Better for calculatefee
   let vsize = 0;
-  vsize += 20;
+  vsize += 10;
   // transaction input size
-  if (isSegwit) {
-    vsize += utxos.length * 68
-  } else {
-    vsize += utxos.length * 148
-  }
-  // transaction output size
-  if (isSegwit) {
-      vsize += 31;
+  // P2PKH: 149 vbytes
+  // P2WPKH: 68 vbytes
+  utxos.forEach(utxo => {
+    if (isP2WPKH(utxo.address)) {
+      vsize += 68
+    } else {
+      vsize += 149
+    }
+  })
+  // Transaction output size:
+  // P2PKH: 34 vbytes
+  // P2SH: 32 vbytes
+  // P2WPKH: 31 vbytes
+  // P2WSH: 43 vbytes
+  destinations.forEach(address => {
+    if (isP2WPKH(address)) {
+      vsize += 31
+    } else {
+      vsize += 34
+    }
+  })
+  // give default output change address 
+  if (isP2WPKH(source)) {
+    vsize += 31;
   } else {
     vsize += 34;
   }
+
   return vsize
 }
 
-const isSegwit = (str) => str.startsWith('bc1')
-
 const ECPairFromWIF = ECPair.fromWIF
 const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAddress) => {
+  const fee = calculateUTXOSize(payerAddress, [payeeAddress], utxos) * feePerByte
   const sendAmountSatoshi = new bigNumber(`${sendAmount}`).times(10 ** 8).toNumber()
   const txb = new TransactionBuilder(NETWORKS.bitcoin)
-  const fee = calculateUTXOSize(isSegwit(payerAddress), utxos) * feePerByte
   const keyPair = new ECPairFromWIF(privateKey, NETWORKS.bitcoin)
   const getUtxoTotalAmount = utxos.length === 1 ?
     utxos[0].amount :
@@ -62,8 +78,8 @@ const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
         .minus(new bigNumber(`${fee}`).valueOf()).toNumber()
     })
   }
-  utxos.forEach((utxo, index) => {
-    if (isSegwit(utxo.address)) {
+  utxos.forEach((utxo) => {
+    if (isP2WPKH(utxo.address)) {
       const hash = crypto.hash160(keyPair.publicKey)
       const prefix = new Uint8Array(2)
       prefix[0] = 0
@@ -80,7 +96,7 @@ const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   });
   utxos.forEach((utxo, index) => {
     let mixIn = {}
-    if (isSegwit(utxo.address)) {
+    if (isP2WPKH(utxo.address)) {
       mixIn.prevOutScriptType = 'p2wpkh'
       mixIn.witnessValue = utxo.amount
     } else {
@@ -97,4 +113,4 @@ const signer = (privateKey, utxos, sendAmount, feePerByte, payerAddress, payeeAd
   return tx.toHex()
 }
 
-export { calculateUTXOSize, signer, isSegwit }
+export { calculateUTXOSize, signer, isP2WPKH }
