@@ -27,3 +27,10 @@ export const getDogewif = privateKeyHex => {
     {network: coinInfo('doge').toBitcoinJS()}
   ).toWIF()
 }
+
+export const getRvnWif = privateKeyHex => {
+  return ECPair.fromPrivateKey(
+    Buffer.from(privateKeyHex, 'hex'),
+    {network: coinInfo('rvn').toBitcoinJS()}
+  ).toWIF()
+}

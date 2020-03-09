@@ -60,3 +60,7 @@ export const getQtumAddress = publicKeyHex => {
 export const getBnbAddress = publicKeyHex => {
   return bnbSdk.crypto.getAddressFromPublicKey(publicKeyHex, 'bnb')
 }
+
+export const getRvnAddress = publicKeyHex => {
+  return getBitcoinSeriesAddress(publicKeyHex, 'rvn')
+}
