@@ -10,7 +10,8 @@ import {
   getQtumAddress,
   getBnbAddress,
   getSegwitAddress,
-  getBitcoinCashAddress
+  getBitcoinCashAddress,
+  getZecAddress
 } from '../src/CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
@@ -63,5 +64,9 @@ describe('Test crypto currency address generate', () => {
   it('get bnb address successfully', () => {
     const address = getBnbAddress(publicKeyHex)
     expect(address).to.equals("bnb1y4zayjjp67mw07kcf5ltmak07xne96r6yh7c5x")
+  })
+  it('get zcash address successfully', () => {
+    const address = getZecAddress(publicKeyHex)
+    expect(address).to.equals("t1MGgeiGjepSozFunLmCVAC8dagLiJZ6r39")
   })
 })
