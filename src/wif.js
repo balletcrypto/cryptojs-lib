@@ -1,36 +1,30 @@
-import { ECPair } from 'bitcoinjs-lib'
 import coinInfo from 'coininfo'
-
+import wif from 'wif'
+const getWIFByPrivateKeyHex = (currency, privateKeyHex) => {
+  const WIFPrefix = coinInfo(currency).versions.private
+  return wif.encode(WIFPrefix, Buffer.from(privateKeyHex, 'hex'), true)
+}
 export const getLitecoinWif = privateKeyHex => {
-  return ECPair.fromPrivateKey(
-    Buffer.from(privateKeyHex, 'hex'),
-    {network: coinInfo('ltc').toBitcoinJS()}
-  ).toWIF()
+  return getWIFByPrivateKeyHex('ltc', privateKeyHex)
 }
 
 export const getBitcoinWif = privateKeyHex => {
-  return ECPair.fromPrivateKey(
-    Buffer.from(privateKeyHex, 'hex')
-  ).toWIF()
+  return getWIFByPrivateKeyHex('btc', privateKeyHex)
 }
 
 export const getDashwif = privateKeyHex => {
-  return ECPair.fromPrivateKey(
-    Buffer.from(privateKeyHex, 'hex'),
-    {network: coinInfo('dash').toBitcoinJS()}
-  ).toWIF()
+  return getWIFByPrivateKeyHex('dash', privateKeyHex)
 }
 
 export const getDogewif = privateKeyHex => {
-  return ECPair.fromPrivateKey(
-    Buffer.from(privateKeyHex, 'hex'),
-    {network: coinInfo('doge').toBitcoinJS()}
-  ).toWIF()
+  return getWIFByPrivateKeyHex('doge', privateKeyHex)
 }
 
 export const getRvnWif = privateKeyHex => {
-  return ECPair.fromPrivateKey(
-    Buffer.from(privateKeyHex, 'hex'),
-    {network: coinInfo('rvn').toBitcoinJS()}
-  ).toWIF()
+  return getWIFByPrivateKeyHex('rvn', privateKeyHex)
 }
+
+export const getZecwif = privateKeyHex => {
+  return getWIFByPrivateKeyHex('zec', privateKeyHex)
+}
+

@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { getLitecoinWif, getBitcoinWif, getDogewif, getDashwif } from '../src/wif'
+import { getLitecoinWif, getBitcoinWif, getDogewif, getDashwif, getZecwif } from '../src/wif'
 
 
 
@@ -25,5 +25,10 @@ describe('Test crypto currency wif generate', () => {
   it('get dash wif address successfully', () =>{
     const dashWif = getDashwif(privateKeyHex)
     expect(dashWif).to.equals("XCQRdLNcAYrxbkwMHL4Eh75nBNLH6KmzW3TvP7YwtDxKUumNEYqK")
+  })
+
+  it('get zec wif successfully', () => {
+    const zecWif = getZecwif(privateKeyHex)
+    expect(zecWif).to.equals("KxLWB4zErsEWYRvyFa4NBstmGM4heXAk8U81rbDkZrgE5kiVqEWK")
   })
 })
