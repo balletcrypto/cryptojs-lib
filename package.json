@@ -12,6 +12,7 @@
     "bs58": "^4.0.1",
     "bs58check": "^2.1.2",
     "coininfo": "^5.1.0",
+    "cosmos-lib": "^1.1.0",
     "ethereum-public-key-to-address": "^0.0.2",
     "ripple-keypairs": "^0.11.0",
     "scryptsy": "^2.1.0",

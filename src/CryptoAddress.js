@@ -5,6 +5,7 @@ import { deriveAddress } from 'ripple-keypairs'
 import ethPublickey2Address from 'ethereum-public-key-to-address'
 import bs58check from 'bs58check'
 import coinInfo from 'coininfo'
+import cosmosLib from 'cosmos-lib'
 
 let bitbox = new BITBOX();
 
@@ -77,4 +78,8 @@ export const getZecAddress = publicKeyHex => {
   const hash = crypto.hash160(pubkey)
   hash.copy(payload, 2)
   return bs58check.encode(payload)
+}
+
+export const getAtomAddress = publicKeyHex => {
+  return cosmosLib.address.getAddress(publicKeyHex)
 }
