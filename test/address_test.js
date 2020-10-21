@@ -11,7 +11,9 @@ import {
   getBnbAddress,
   getSegwitAddress,
   getBitcoinCashAddress,
-  getZecAddress
+  getZecAddress,
+  getAtomAddress,
+  getFilAddress
 } from '../src/CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
@@ -68,5 +70,13 @@ describe('Test crypto currency address generate', () => {
   it('get zcash address successfully', () => {
     const address = getZecAddress(publicKeyHex)
     expect(address).to.equals("t1MGgeiGjepSozFunLmCVAC8dagLiJZ6r39")
+  })
+  it('get atom address successfully', () => {
+    const address = getAtomAddress("027c2c66986d3f878521685ea78a310ecf654a3998d104e284949e7ad6b959a731")
+    expect(address).to.equals("cosmos1ukccrva9v2jadenh437lu5ryazzk75jdzu9lwn")
+  })
+  it('get fil address successfully', () => {
+    const address = getFilAddress("044a8039f9f4c803602b5dd8d695a017ceaa1d3682581039d7eebdf149ebd60fffb096eed0ec1fab6b797df744cda0492764e6208be77ed4b04116cf0ff523ef4a")
+    expect(address).to.equals("f1sepz6ghvbenhmojwxa4w5z7lzz3xf5wqgx2jxeq")
   })
 })

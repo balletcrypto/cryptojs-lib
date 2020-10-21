@@ -1274,6 +1274,19 @@ bip32@^1:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
+bip32@^2.0.3:
+  version "2.0.5"
+  resolved "https://registry.npm.taobao.org/bip32/download/bip32-2.0.5.tgz#e3808a9e97a880dbafd0f5f09ca4a1e14ee275d2"
+  integrity sha1-44CKnpeogNuv0PXwnKSh4U7iddI=
+  dependencies:
+    "@types/node" "10.12.18"
+    bs58check "^2.1.1"
+    create-hash "^1.2.0"
+    create-hmac "^1.1.7"
+    tiny-secp256k1 "^1.1.3"
+    typeforce "^1.11.5"
+    wif "^2.0.6"
+
 bip32@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.4.tgz#b662bd28710d4676fb351ba8a13be45cb4d85d01"
@@ -1855,6 +1868,17 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+
+cosmos-lib@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/cosmos-lib/download/cosmos-lib-1.1.0.tgz#9a3c182a7eae1ab2f92cbfcf5a5233a6b0f82353"
+  integrity sha1-mjwYKn6uGrL5LL/PWlIzprD4I1M=
+  dependencies:
+    bech32 "^1.1.3"
+    bip32 "^2.0.3"
+    bip39 "^3.0.2"
+    ripemd160 "^2.0.2"
+    secp256k1 "^3.7.1"
 
 cp-file@^6.2.0:
   version "6.2.0"
@@ -4330,7 +4354,7 @@ rimraf@~2.6.2:
   dependencies:
     glob "^7.1.3"
 
-ripemd160@^2.0.0, ripemd160@^2.0.1:
+ripemd160@^2.0.0, ripemd160@^2.0.1, ripemd160@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
   integrity sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
@@ -5092,14 +5116,7 @@ wide-align@1.1.3, wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
-wif@^2.0.1:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/wif/-/wif-2.0.6.tgz#08d3f52056c66679299726fade0d432ae74b4704"
-  integrity sha1-CNP1IFbGZnkplyb63g1DKudLRwQ=
-  dependencies:
-    bs58check "<3.0.0"
-
-wif@^2.0.6:
+wif@^2.0.1, wif@^2.0.6:
   version "2.0.6"
   resolved "https://registry.npm.taobao.org/wif/download/wif-2.0.6.tgz#08d3f52056c66679299726fade0d432ae74b4704"
   integrity sha1-CNP1IFbGZnkplyb63g1DKudLRwQ=
