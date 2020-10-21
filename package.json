@@ -16,7 +16,6 @@
     "cosmos-lib": "^1.1.0",
     "ethereum-public-key-to-address": "^0.0.2",
     "ripple-keypairs": "^0.11.0",
-    "ripple-lib": "^1.8.1",
     "scryptsy": "^2.1.0",
     "secure-random": "^1.1.2",
     "wif": "^2.0.6"
