@@ -15,7 +15,8 @@ export const isValidPassphraseFormat = passphrase => {
 export function decryptEpkVcode(epk, vcode) {
   const { privateKey, compressed } = decrypt(epk, vcode)
   const ecPair = ECPair.fromPrivateKey(privateKey, { compressed })
-
+  const unCompressedEcPair = ECPair.fromPrivateKey(privateKey, { compressed: false })
+  const unCompressedPublicKeyHex = unCompressedEcPair.publicKey.toString('hex')
   const publicKeyHex = ecPair.publicKey.toString('hex')
   const privateKeyHex = privateKey.toString('hex')
   const wif = ecPair.toWIF()
@@ -25,6 +26,7 @@ export function decryptEpkVcode(epk, vcode) {
       publicKeyHex,
       privateKeyHex,
       wif,
+      unCompressedPublicKeyHex
     }
   } else {
     throw new Error('invalid epk or passphrase')

@@ -54,6 +54,9 @@ export async function validateConfirmation(confirmation, passphrase) {
   const generatedAddress = address(sha256ripe160(generatedBytes));
   const publicKeyHex = Buffer.from(generatedBytes).toString("hex")
 
+  const uncompressedGeneratedBytes = generatedPoint.multiply(BigInteger.fromByteArrayUnsigned(passfactor)).getEncoded(false);
+  const uncompressedPublicKeyHex = Buffer.from(uncompressedGeneratedBytes).toString("hex")
+
   const generatedAddressHash = doubleSha256(generatedAddress).slice(0, 4);
 
   let valid = true;
@@ -66,5 +69,6 @@ export async function validateConfirmation(confirmation, passphrase) {
     valid,
     generatedAddress,
     publicKeyHex,
+    uncompressedPublicKeyHex
   }
 }

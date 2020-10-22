@@ -136,9 +136,9 @@ export const getFilAddress = publicKeyHex => {
   const protocolByte = new Buffer.alloc(1)
   protocolByte[0] = protocol
   const payload = blake2b(hexToU8a(publicKeyHex), null, 20)
-  const addrBytes = Buffer.concat([protocolByte, payload])
+  const addrBytes = Buffer.concat([protocolByte, Buffer.from(payload)])
   const checksum = blake2b(addrBytes, null, 4)
-  const bytes = Buffer.concat([payload, Buffer.from(checksum)]);
+  const bytes = Buffer.concat([Buffer.from(payload), Buffer.from(checksum)]);
   return `${prefix}${protocol}${encode(bytes, base32)}`
 }
 
