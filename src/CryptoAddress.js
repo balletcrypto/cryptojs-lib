@@ -1,14 +1,12 @@
-import { BITBOX } from 'bitbox-sdk'
-import bnbSdk from '@binance-chain/javascript-sdk'
-import { payments, crypto } from 'bitcoinjs-lib'
-import { deriveAddress } from 'ripple-keypairs'
-import ethPublickey2Address from 'ethereum-public-key-to-address'
+import { crypto } from 'bitcoinjs-lib'
+import { encodeAccountID } from 'ripple-address-codec'
 import bs58check from 'bs58check'
 import coinInfo from 'coininfo'
-import cosmosLib from 'cosmos-lib'
 import { blake2b } from 'blakejs'
-
-let bitbox = new BITBOX();
+import { bech32 } from "bech32"
+import { publicKeyConvert } from 'secp256k1'
+import createKeccakHash from 'keccak'
+import cashaddr from 'cashaddrjs'
 
 export const getBitcoinSeriesAddress = (publicKeyHex, currency) => {
   const pubkey = Buffer.from(publicKeyHex, 'hex')
@@ -30,7 +28,14 @@ export const getDogeAddress = publicKeyHex => {
 
 export const getBitcoinCashAddress = publicKeyHex => {
   const address = getBitcoinAddress(publicKeyHex)
-  return bitbox.Address.toCashAddress(address)
+  const hash = bs58check.decode(address).slice(1)
+
+  const cashAddress = cashaddr.encode(
+    'bitcoincash',
+    'P2PKH',
+    hash
+  )
+  return cashAddress
 }
 
 export const getBitcoinAddress = publicKeyHex => {
@@ -47,16 +52,24 @@ export const getBTGAddress = publicKeyHex => {
 
 export const getSegwitAddress = publicKeyHex => {
   const pubkey = Buffer.from(publicKeyHex, 'hex')
-  const { address } = payments.p2wpkh( { pubkey } )
-  return address
+  const hash = crypto.hash160(pubkey)
+  const words = bech32.toWords(Buffer.from(hash));
+  words.unshift(0x00);
+  return bech32.encode('bc', words);
 }
 
 export const getXRPAddress = publicKeyHex => {
-  return deriveAddress(publicKeyHex)
+  const pubkey = Buffer.from(publicKeyHex, 'hex')
+  const hash = crypto.hash160(pubkey)
+  return encodeAccountID(Buffer.from(hash))
 }
 
 export const getEthAddress = publicKeyHex => {
-  return ethPublickey2Address(publicKeyHex)
+  let publicKey = publicKeyHex.slice(0, 2) === '0x' ? publicKeyHex.slice(2) : publicKeyHex
+  publicKey = Buffer.from(publicKey, 'hex')
+  publicKey = Buffer.from(publicKeyConvert(publicKey, false)).slice(1)
+  const hash = createKeccakHash('keccak256').update(publicKey).digest()
+  return toChecksumAddress(hash.slice(-20).toString('hex'))
 }
 
 export const getQtumAddress = publicKeyHex => {
@@ -64,7 +77,10 @@ export const getQtumAddress = publicKeyHex => {
 }
 
 export const getBnbAddress = publicKeyHex => {
-  return bnbSdk.crypto.getAddressFromPublicKey(publicKeyHex, 'bnb')
+  const pubkey = Buffer.from(publicKeyHex, 'hex')
+  const hash = crypto.hash160(pubkey)
+  let words = bech32.toWords(Buffer.from(hash))
+  return bech32.encode('bnb', words)
 }
 
 export const getRvnAddress = publicKeyHex => {
@@ -144,5 +160,34 @@ export const getFilAddress = publicKeyHex => {
 
 export const getAtomAddress = publicKeyHex => {
   const pubkey = Buffer.from(publicKeyHex, 'hex')
-  return cosmosLib.address.getAddress(pubkey)
+  const hash = crypto.hash160(pubkey)
+  let words = bech32.toWords(Buffer.from(hash))
+  return bech32.encode('cosmos', words)
+}
+
+function toChecksumAddress (address, chainId = null) {
+  if (typeof address !== 'string') {
+    return ''
+  }
+
+  if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+    throw new Error(`Given address "${address}" is not a valid Ethereum address.`)
+  }
+
+  const stripAddress = stripHexPrefix(address).toLowerCase()
+  const prefix = chainId != null ? chainId.toString() + '0x' : ''
+  const keccakHash = createKeccakHash('keccak256').update(prefix + stripAddress).digest()
+    .toString('hex')
+    .replace(/^0x/i, '')
+  let checksumAddress = '0x'
+
+  for (let i = 0; i < stripAddress.length; i++) {
+    checksumAddress += parseInt(keccakHash[i], 16) >= 8 ? stripAddress[i].toUpperCase() : stripAddress[i]
+  }
+
+  return checksumAddress
+}
+
+function stripHexPrefix (value) {
+  return value.slice(0, 2) === '0x' ? value.slice(2) : value
 }
