@@ -3,6 +3,7 @@ import { decrypt } from 'bip38'
 import { ECPair, payments } from 'bitcoinjs-lib'
 import { decode } from './util/base58'
 import { doubleSha256 } from './util/sha256'
+import coinInfo from 'coininfo'
 
 export const isBip38Format = epk => {
   return /^6P[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{56}$/.test(epk)
@@ -12,9 +13,10 @@ export const isValidPassphraseFormat = passphrase => {
   return /^[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}-[0-9A-Z]{4}$/.test(passphrase)
 }
 
-export function decryptEpkVcode(epk, vcode) {
+export function decryptEpkVcode(epk, vcode, currency = 'btc') {
   const { privateKey, compressed } = decrypt(epk, vcode)
-  const ecPair = ECPair.fromPrivateKey(privateKey, { compressed })
+  const network = coinInfo(currency).toBitcoinJS()
+  const ecPair = ECPair.fromPrivateKey(privateKey, { compressed, network })
   const unCompressedEcPair = ECPair.fromPrivateKey(privateKey, { compressed: false })
   const unCompressedPublicKeyHex = unCompressedEcPair.publicKey.toString('hex')
   const publicKeyHex = ecPair.publicKey.toString('hex')
