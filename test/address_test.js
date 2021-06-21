@@ -13,7 +13,8 @@ import {
   getBitcoinCashAddress,
   getZecAddress,
   getAtomAddress,
-  getFilAddress
+  getFilAddress,
+  getCfxAddress
 } from '../src/CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
@@ -54,7 +55,6 @@ describe('Test crypto currency address generate', () => {
     const address = getEthAddress(publicKeyHex)
     expect(address).to.equals("0x3Bd716720A5aEE40Cc08E7F2Abc156d7c30dE334")
   })
-
   it('get xrp address successfully ', () => {
     const address = getXRPAddress(publicKeyHex)
     expect(address).to.equals("rhQne4ibgVCDPcitQLP4pPp5Lp9dWb5DtZ")
@@ -78,5 +78,9 @@ describe('Test crypto currency address generate', () => {
   it('get fil address successfully', () => {
     const address = getFilAddress("044a8039f9f4c803602b5dd8d695a017ceaa1d3682581039d7eebdf149ebd60fffb096eed0ec1fab6b797df744cda0492764e6208be77ed4b04116cf0ff523ef4a")
     expect(address).to.equals("f1sepz6ghvbenhmojwxa4w5z7lzz3xf5wqgx2jxeq")
+  })
+  it('get cfx address successfully', () => {
+    const address = getCfxAddress(publicKeyHex)
+    expect(address).to.equals("cfx:aar7sfxwbkrs6ugpbdx9fm8bm5n6gdtdgu6xr0tv5t")
   })
 })

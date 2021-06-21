@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@conflux-dev/conflux-address-js": "^1.0.0",
     "babel-polyfill": "^6.26.0",
     "bech32": "^2.0.0",
     "bip38": "^3.0.0",
