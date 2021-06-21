@@ -200,3 +200,14 @@ export const getCfxAddress = publicKeyHex => {
   const netId = 1029 // Conflux main-net
   return confluxAddr.encode(hexBuffer, netId)
 }
+
+export const getTrxAddress = publicKeyHex => {
+  let publicKey = Buffer.from(publicKeyHex, 'hex')
+  publicKey = Buffer.from(publicKeyConvert(publicKey, false)).slice(1)
+  let hash = createKeccakHash('keccak256').update(publicKey).digest()
+  hash = hash.slice(-20)
+  let payload = Buffer.allocUnsafe(21)
+  payload.writeUInt8(0x41, 0)
+  hash.copy(payload, 1)
+  return bs58check.encode(payload)
+}
