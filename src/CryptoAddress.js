@@ -7,7 +7,7 @@ import { bech32 } from "bech32"
 import { publicKeyConvert } from 'secp256k1'
 import createKeccakHash from 'keccak'
 import cashaddr from 'cashaddrjs'
-import confluxAddr from '@conflux-dev/conflux-address-js'
+import confluxAddr from 'conflux-address-js'
 
 export const getBitcoinSeriesAddress = (publicKeyHex, currency) => {
   const pubkey = Buffer.from(publicKeyHex, 'hex')
