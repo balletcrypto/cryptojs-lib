@@ -931,13 +931,6 @@
     "@babel/helper-validator-identifier" "^7.14.5"
     to-fast-properties "^2.0.0"
 
-"@conflux-dev/conflux-address-js@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@conflux-dev/conflux-address-js/-/conflux-address-js-1.0.0.tgz#e779547f40b4436d428e1ea7f616ea23ad895979"
-  integrity sha512-RJMXfleBz3286irDsQ0T+2STsowSUklnqAOglBfQA7dAy274zZ466Sd7l1bQsknJVJ0Q9Y5AGLYv2RIajZpYbg==
-  dependencies:
-    jsbi "^3.1.4"
-
 "@types/node@10.12.18":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
@@ -1052,10 +1045,10 @@ big-integer@1.6.36:
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.36.tgz#78631076265d4ae3555c04f85e7d9d2f3a071a36"
   integrity sha512-t70bfa7HYEA1D9idDbmuv7YbsbVkQ+Hp+8KFSul4aE5e/i1bjCNIRYJZlA8Q8p0r9T8cF/RVvwUgRA//FydEyg==
 
-bigi@^1.1.0, bigi@^1.2.0:
+bigi@^1.1.0, bigi@^1.2.0, bigi@^1.4.2:
   version "1.4.2"
-  resolved "https://registry.yarnpkg.com/bigi/-/bigi-1.4.2.tgz#9c665a95f88b8b08fc05cfd731f561859d725825"
-  integrity sha1-nGZalfiLiwj8Bc/XMfVhhZ1yWCU=
+  resolved "https://registry.npmmirror.com/bigi/-/bigi-1.4.2.tgz#9c665a95f88b8b08fc05cfd731f561859d725825"
+  integrity sha512-ddkU+dFIuEIW8lE7ZwdIAf2UPoM90eaprg5m3YXAVVTmKlqV/9BX4A2M8BOK2yOq6/VgZFVhK6QAxJebhlbhzw==
 
 bindings@^1.3.0:
   version "1.5.0"
@@ -1317,6 +1310,13 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+conflux-address-js@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/conflux-address-js/-/conflux-address-js-1.0.4.tgz#fc2f0972ea7a4aea9ac30218e8af199ee75ca0de"
+  integrity sha512-RGfeX5t7evZKGtq82EbsTiCkiA2KUJ5SVosVQuMFg1zURuXdstk1GESLgt3j6fDuK+hZNXUKhtCsCS2lMLkFgA==
+  dependencies:
+    bigi "^1.4.2"
+
 convert-source-map@^1.7.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-1.8.0.tgz#f3373c32d21b4d780dd8004514684fb791ca4369"
@@ -1359,11 +1359,6 @@ create-hmac@^1.1.3, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-crypto-js@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
-  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
 
 debug@3.2.6:
   version "3.2.6"
@@ -1741,11 +1736,6 @@ js-yaml@3.13.1:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
-
-jsbi@^3.1.4:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/jsbi/-/jsbi-3.1.5.tgz#70c2aaa2f75e1dc7604fed45298061ca23724046"
-  integrity sha512-w2BY0VOYC1ahe+w6Qhl4SFoPvPsZ9NPHY4bwass+LCgU7RK3PBoVQlQ3G1s7vI8W3CYyJiEXcbKF7FIM/L8q3Q==
 
 jsesc@^2.5.1:
   version "2.5.2"
@@ -2367,11 +2357,6 @@ unicode-property-aliases-ecmascript@^1.0.4:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-1.1.0.tgz#dd57a99f6207bedff4628abefb94c50db941c8f4"
   integrity sha512-PqSoPh/pWetQ2phoj5RLiaqIk4kCNwoV3CI+LfGmWLKI3rE3kl1h59XpX2BjgDrmbxD9ARtQobPGU1SguCYuQg==
-
-utf-8@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/utf-8/-/utf-8-2.0.0.tgz#6c2a309d683958862a01b5bf8e1d2dff46d36bf9"
-  integrity sha512-DItg/Z20ltBzugPrb8Mx1oN0F8CqN5bD38T57YM/pF/GOzUsNVXiellI0PbJPq3e1Z7BEDNoWP1H1+4n7g54Cg==
 
 util-deprecate@^1.0.1:
   version "1.0.2"

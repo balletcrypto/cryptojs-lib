@@ -15,7 +15,8 @@ import {
   getAtomAddress,
   getFilAddress,
   getCfxAddress,
-  getTrxAddress
+  getTrxAddress,
+  getQtcAddress
 } from '../src/CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
@@ -87,5 +88,9 @@ describe('Test crypto currency address generate', () => {
   it('get trx address successfully', () => {
     const address = getTrxAddress(publicKeyHex)
     expect(address).to.equals("TFRcXvwZuu6Cgrsb5p3YkqLB6gtrsHMGw8")
+  })
+  it('get qtc address successfully', () => {
+    const address = getQtcAddress(publicKeyHex)
+    expect(address).to.equals("35s1iNmEdY3bgjmPZPSbDC2qTt4MtWeW5c")
   })
 })
