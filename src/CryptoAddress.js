@@ -213,13 +213,14 @@ export const getTrxAddress = publicKeyHex => {
 }
 
 export const getQtcAddress = (publicKeyHex) => {
-  const keyHash = crypto.hash160(publicKeyHex);
+  const pubkey = Buffer.from(publicKeyHex, 'hex')
+  const keyHash = crypto.hash160(pubkey);
   const redeemScript = Buffer.allocUnsafe(keyHash.length + 2);
   redeemScript.writeUInt8(0, 0);
   redeemScript.writeUInt8(20, 1);
   keyHash.copy(redeemScript, 2);
   const hash = crypto.hash160(redeemScript);
-  let payload = Buffer.allocUnsafe(21)
+  let payload = Buffer.allocUnsafe(hash.length + 1)
   payload.writeUInt8(0x05, 0)
   hash.copy(payload, 1)
   return bs58check.encode(payload)
