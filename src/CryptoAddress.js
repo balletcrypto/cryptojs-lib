@@ -225,3 +225,7 @@ export const getQtcAddress = (publicKeyHex) => {
   hash.copy(payload, 1)
   return bs58check.encode(payload)
 }
+
+export const getDigiByteAddress = publicKeyHex => {
+  return getBitcoinSeriesAddress(publicKeyHex, 'dgb')
+}

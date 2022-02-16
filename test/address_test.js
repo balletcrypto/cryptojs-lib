@@ -16,7 +16,8 @@ import {
   getFilAddress,
   getCfxAddress,
   getTrxAddress,
-  getQtcAddress
+  getQtcAddress,
+  getDigiByteAddress,
 } from '../src/CryptoAddress'
 
 describe('Test crypto currency address generate', () => {
@@ -91,6 +92,10 @@ describe('Test crypto currency address generate', () => {
   })
   it('get qtc address successfully', () => {
     const address = getQtcAddress(publicKeyHex)
-    expect(address).to.equals("35s1iNmEdY3bgjmPZPSbDC2qTt4MtWeW5c")
+    expect(address).to.equals("32wHwB2c5Ufmhv4NFjLxYopXMXpEL4rwdd")
+  })
+  it('get digibyte address successfully', () => {
+    const address = getDigiByteAddress(publicKeyHex)
+    expect(address).to.equals("D8YBBdoEyuZVvd3V8vNva9CKD9svqbUEo2")
   })
 })
