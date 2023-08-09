@@ -11,6 +11,7 @@ import {
   getBnbAddress,
   getSegwitAddress,
   getBitcoinCashAddress,
+  getECashAddress,
   getZecAddress,
   getAtomAddress,
   getFilAddress,
@@ -53,6 +54,10 @@ describe('Test crypto currency address generate', () => {
   it('get bitcoin cash address successfully ', () => {
     const address = getBitcoinCashAddress(publicKeyHex)
     expect(address).to.equals("bitcoincash:qqj5t5j2g8tmdel6mpxna00kelc60yhg0gpnvxc7mz")
+  })
+  it('get ecash address successfully ', () => {
+    const address = getECashAddress(publicKeyHex)
+    expect(address).to.equals("ecash:qqj5t5j2g8tmdel6mpxna00kelc60yhg0gc7cdrya4")
   })
   it('get eth address successfully ', () => {
     const address = getEthAddress(publicKeyHex)
