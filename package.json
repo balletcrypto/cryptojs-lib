@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
+    "conflux-address-js": "^1.0.4",
     "bech32": "^2.0.0",
     "bip38": "^3.0.0",
     "bitcoinjs-lib": "^5.1.6",
@@ -22,6 +22,7 @@
     "wif": "^2.0.6"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.0.0",
@@ -33,4 +34,3 @@
     "test": "./node_modules/.bin/mocha --timeout 100000 --require @babel/register test/*"
   }
 }
-
