@@ -23,7 +23,7 @@ export async function validateConfirmation(confirmation, passphrase) {
   const compressed = (flagByte & 0x20) == 0x20;
   const lotSequencePresent = (flagByte & 0x04) == 0x04;
   const ownerSalt = ownerEntropy.slice(0, lotSequencePresent ? 4 : 8)
-  const prefactor = await CryptoScrypt.async(passphrase, Buffer.from(ownerSalt), 16384, 8, 8, 32)
+  const prefactor = await CryptoScrypt.async(passphrase.normalize('NFC'), Buffer.from(ownerSalt), 16384, 8, 8, 32)
   // Take SHA256(SHA256(prefactor + ownerentropy)) and call this passfactor
   const passfactorBytes = !lotSequencePresent ? Array.from(prefactor) : doubleSha256(Array.from(prefactor).concat(ownerEntropy));
   const passfactor = BigInteger.fromByteArrayUnsigned(passfactorBytes);
