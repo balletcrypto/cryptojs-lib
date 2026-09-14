@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "conflux-address-js": "^1.0.4",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.0.0",
     "bip38": "^3.0.0",
