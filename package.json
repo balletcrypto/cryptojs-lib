@@ -1,7 +1,6 @@
 {
   "name": "crypto-lib",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "conflux-address-js": "^1.0.4",
