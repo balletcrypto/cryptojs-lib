@@ -7,7 +7,7 @@ import bs58 from 'bs58'
 export async function genIntermediate (passphrase) {
   let ownerEntropy, ownerSalt;
   ownerSalt = ownerEntropy = secureRandom(8);
-  const prefactor = await CryptoScrypt.async(passphrase, Buffer.from(ownerSalt), 16384, 8, 8, 32);
+  const prefactor = await CryptoScrypt.async(passphrase.normalize('NFC'), Buffer.from(ownerSalt), 16384, 8, 8, 32);
   const passfactor = BigInteger.fromByteArrayUnsigned(Array.from(prefactor));
   const ecparams = ec.getSECCurveByName("secp256k1");
   const passpoint = ecparams.getG().multiply(passfactor).getEncoded(1);
