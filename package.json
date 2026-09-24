@@ -27,7 +27,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
-    "mocha": "^6.2.0"
+    "mocha": "^11.8.0"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 100000 --require @babel/register test/*"
