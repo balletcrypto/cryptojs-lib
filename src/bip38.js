@@ -28,7 +28,8 @@ export function decryptEpkVcode(epk, vcode, currency = 'btc') {
       publicKeyHex,
       privateKeyHex,
       wif,
-      unCompressedPublicKeyHex
+      unCompressedPublicKeyHex,
+      compressed
     }
   } else {
     throw new Error('invalid epk or passphrase')
