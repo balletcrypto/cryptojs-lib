@@ -3,6 +3,8 @@
 * contribution from Simon Greatrix
 */
 
+import { randomBytes } from './crypto'
+
 // Create pad namespace
 export var C_pad = {};
 
@@ -118,7 +120,7 @@ C_pad.iso10126 = {
   pad: function (cipher, message) {
     var reqd = _requiredPadding(cipher, message);
     for (var i = 1; i < reqd; i++) {
-      message.push(Math.floor(Math.random() * 256));
+      message.push(randomBytes(1)[0]);
     }
     message.push(reqd);
   },
