@@ -1,3 +1,4 @@
+import secureRandom from 'secure-random'
 import { RIPEMD160 } from './ripemd160'
 import { sha256 } from '../util/sha256'
 
@@ -30,9 +31,7 @@ export function rotr(n, b) {
 
 // Generate an array of any length of random bytes
 export function randomBytes(n) {
-  for (var bytes = []; n > 0; n--)
-    bytes.push(Math.floor(Math.random() * 256));
-  return bytes;
+  return secureRandom(n);
 }
 
 // Convert a byte array to big-endian 32-bit words
