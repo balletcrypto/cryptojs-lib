@@ -1,30 +1,30 @@
 import coinInfo from 'coininfo'
 import wif from 'wif'
-const getWIFByPrivateKeyHex = (currency, privateKeyHex) => {
+const getWIFByPrivateKeyHex = (currency, privateKeyHex, compressed = true) => {
   const WIFPrefix = coinInfo(currency).versions.private
-  return wif.encode(WIFPrefix, Buffer.from(privateKeyHex, 'hex'), true)
+  return wif.encode(WIFPrefix, Buffer.from(privateKeyHex, 'hex'), compressed)
 }
-export const getLitecoinWif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('ltc', privateKeyHex)
-}
-
-export const getBitcoinWif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('btc', privateKeyHex)
+export const getLitecoinWif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('ltc', privateKeyHex, compressed)
 }
 
-export const getDashwif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('dash', privateKeyHex)
+export const getBitcoinWif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('btc', privateKeyHex, compressed)
 }
 
-export const getDogewif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('doge', privateKeyHex)
+export const getDashwif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('dash', privateKeyHex, compressed)
 }
 
-export const getRvnWif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('rvn', privateKeyHex)
+export const getDogewif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('doge', privateKeyHex, compressed)
 }
 
-export const getZecwif = privateKeyHex => {
-  return getWIFByPrivateKeyHex('zec', privateKeyHex)
+export const getRvnWif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('rvn', privateKeyHex, compressed)
+}
+
+export const getZecwif = (privateKeyHex, compressed = true) => {
+  return getWIFByPrivateKeyHex('zec', privateKeyHex, compressed)
 }
 
